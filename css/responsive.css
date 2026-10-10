@@ -1,0 +1,186 @@
+/* =========================================================
+   Responsive layout
+   > 1024px  desktop: full sidebar
+   769–1024  tablet: icon rail sidebar
+   481–768   large mobile / small tablet: bottom navigation
+   <= 480    small mobile
+   ========================================================= */
+
+/* ---------- Wide but not huge ---------- */
+@media (max-width: 1280px) {
+  .dash-grid, .detail-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+}
+
+@media (max-width: 1180px) {
+  .cal-layout { grid-template-columns: 1fr; }
+  .day-panel { position: static; }
+  .cal-summary { grid-template-columns: repeat(4, auto) minmax(140px, 1fr); gap: 12px 20px; }
+}
+
+/* ---------- Welcome: stack the intro above the form ---------- */
+@media (max-width: 920px) {
+  .welcome { place-items: start center; }
+  .welcome-shell { grid-template-columns: 1fr; gap: 28px; max-width: 540px; }
+  .welcome-title { margin-top: 28px; font-size: 36px; }
+  .welcome-points { display: none; }
+}
+
+/* ---------- Tablet & compact desktop ---------- */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 76px; }
+
+  .sidebar { padding: 18px 10px 12px; align-items: center; }
+  .sidebar-brand { padding: 2px 0 22px; }
+  .sidebar-brand .logo-full, .sidebar-brand .brand-sub { display: none; }
+  .sidebar-brand .logo-mark { display: block; width: 40px; height: 40px; }
+  .side-nav { width: 100%; align-items: center; }
+  .nav-link { width: 48px; height: 44px; justify-content: center; padding: 0; }
+  .nav-link .nav-label {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap;
+  }
+  .nav-link.is-active::before { left: -10px; }
+  .sidebar-profile { width: auto; padding: 6px; border: 0; background: transparent; }
+  .sidebar-profile-text { display: none; }
+
+  .topbar { padding: 0 24px; }
+  .view { padding: 24px 24px 48px; }
+  .banner { margin: 16px 24px 0; }
+
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dash-grid, .detail-grid, .progress-grid { grid-template-columns: 1fr; }
+  .dash-side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .cal-cell { min-height: 92px; }
+}
+
+@media (max-width: 900px) {
+  .settings-grid { grid-template-columns: 1fr; }
+  .field-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .app-body { margin-left: 0; }
+
+  .topbar { padding: 0 16px; height: 58px; --topbar-h: 58px; }
+  .topbar-brand { display: inline-flex; }
+  .crumb-root, .crumb-sep { display: none; }
+  .crumb-current { font-size: 15px; font-weight: 600; }
+  .search-trigger { min-width: 0; width: 40px; height: 40px; padding: 0; justify-content: center; }
+  .search-trigger-text, .search-trigger kbd { display: none; }
+  #quick-add { width: 40px; height: 40px; padding: 0; }
+  #quick-add .btn-label { display: none; }
+  .avatar-btn .avatar { width: 34px; height: 34px; }
+
+  .view { padding: 20px 16px calc(96px + env(safe-area-inset-bottom)); }
+  .banner { margin: 12px 16px 0; }
+  .page { gap: 16px; }
+  .page-head { align-items: flex-start; }
+  .page-title { font-size: 23px; }
+  .page-title-lg { font-size: 25px; }
+  .card { padding: 16px; border-radius: 12px; }
+  .stat { padding: 14px; border-radius: 12px; }
+  .stat-value { font-size: 23px; }
+
+  .bottom-nav {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+    background: rgba(17, 17, 20, 0.94);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-top: 1px solid var(--border);
+  }
+  .bottom-link {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-height: 52px; border-radius: 10px;
+    font-size: 11px; font-weight: 500; color: var(--text-2);
+  }
+  .bottom-link.is-active { color: var(--text); }
+  .bottom-link.is-active .icon { color: var(--orange); }
+
+  .toasts { left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom)); align-items: stretch; }
+  .toast { max-width: none; }
+
+  .dash-side { grid-template-columns: 1fr; }
+  .dash-head .page-actions { display: none; }
+
+  /* Calendar: compact cells, dots instead of titles, agenda below */
+  .cal-toolbar { flex-wrap: wrap; }
+  .cal-title { font-size: 18px; }
+  .cal-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 12px; gap: 10px 12px; }
+  .sum-progress { grid-column: 1 / -1; }
+  .sum-value { font-size: 16px; }
+  .cal-weekdays, .cal-grid { gap: 3px; }
+  .cal-weekdays span { text-align: center; padding: 0; font-size: 11px; }
+  .cal-cell {
+    min-height: 0; aspect-ratio: 1 / 1.05; padding: 4px 2px;
+    align-items: center; justify-content: flex-start; gap: 3px; border-radius: 8px;
+  }
+  .cal-num { align-self: center; min-width: 26px; height: 24px; font-size: 12.5px; }
+  .cal-items { display: none; }
+  .cal-dots { display: inline-flex; }
+  .cal-cell .dot { width: 5px; height: 5px; }
+  .day-panel { padding: 16px; }
+
+  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex-shrink: 0; }
+  .filter { max-width: none; min-width: calc(50% - 6px); flex: 1 1 calc(50% - 6px); }
+  .filter-clear { margin-left: 0; }
+
+  .task-actions { opacity: 1; }
+  .task { gap: 10px; }
+
+  .settings-grid, .field-grid-3 { grid-template-columns: 1fr; }
+  .data-row { flex-direction: column; align-items: stretch; }
+  .data-row .btn { width: 100%; }
+  .data-actions .btn { flex: 1; width: auto; }
+
+
+  .modal[open] { padding: 12px; place-items: end center; }
+  .modal-card { max-height: calc(100dvh - 24px); }
+  .modal-body { overflow-y: auto; }
+  .modal-sm[open] { place-items: center; }
+  .sheet[open] { place-items: end center; }
+}
+
+/* ---------- Small mobile ---------- */
+@media (max-width: 480px) {
+  .welcome { padding: 28px 16px; }
+  .welcome-logo { width: 200px; }
+  .welcome-title { font-size: 30px; }
+  .welcome-card { padding: 20px 18px; gap: 20px; }
+  .course-options { grid-template-columns: 1fr; gap: 8px; }
+  .course-card { display: grid; grid-template-columns: minmax(0, 1fr) 118px; column-gap: 12px; padding: 12px 14px; }
+  .course-top { grid-column: 1; }
+  .course-sub { grid-column: 1; min-height: 0; }
+  .course-subjects { grid-column: 2; grid-row: 1 / span 2; margin: 0; padding: 0 0 0 12px; border-top: 0; border-left: 1px solid var(--border); justify-content: center; gap: 3px; }
+
+  .stat-grid, .stat-grid-3 { gap: 10px; }
+  .stat-sub { font-size: 12px; }
+  .field-grid-2 { grid-template-columns: 1fr; }
+  .name-form { flex-direction: column; align-items: stretch; }
+  .name-form .btn { margin-top: 0; }
+
+  .page-actions .btn { flex: 1; }
+  .track-card .segmented { width: 100%; }
+  .track-card .seg-btn { flex: 1; }
+
+  .modal-foot .btn { flex: 1; }
+  .modal-foot .spacer { display: none; }
+  #tf-delete { order: 3; flex-basis: 100%; }
+
+  .chart { gap: 6px; }
+  .chart-track { height: 130px; }
+
+  .task-meta { gap: 6px 10px; }
+  .task-actions { flex-direction: column; }
+}
+
+@media (max-width: 360px) {
+  .stat-grid, .stat-grid-3 { grid-template-columns: 1fr; }
+  .cal-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bhairavi Academy Study Planner</title>
+  <meta name="description"
+    content="Bhairavi Academy study planner for NEET and JEE students. Plan tasks, track progress and download your progress report.">
+  <meta name="theme-color" content="#0B0B0D">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/favicon.png?v=2" sizes="192x192" type="image/png">
+  <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+  <noscript>
+    <p class="noscript">Bhairavi Study Planner needs JavaScript to run. Please enable JavaScript in your browser.</p>
+  </noscript>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="sr-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ============ WELCOME ============ -->
+  <section id="welcome" class="welcome" hidden aria-labelledby="welcome-title">
+    <div class="welcome-shell">
+      <div class="welcome-intro">
+        <img class="welcome-logo" src="assets/logo-full.png" alt="Bhairavi Academy" width="900" height="191">
+        <p class="brand-sub">STUDY PLANNER</p>
+        <h1 id="welcome-title" class="welcome-title">Your goals start here.</h1>
+        <ul class="welcome-points">
+          <li><span class="point-icon" data-icon="calendar" data-size="18"></span><span class="point-text"><span class="point-title">Plan by date</span><span class="point-sub">A clear list for every day of the month</span></span></li>
+          <li><span class="point-icon" data-icon="chart-column" data-size="18"></span><span class="point-text"><span class="point-title">Track every subject</span><span class="point-sub">See what is done, pending and overdue</span></span></li>
+          <li><span class="point-icon" data-icon="download" data-size="18"></span><span class="point-text"><span class="point-title">Download your report</span><span class="point-sub">A PDF of your progress to keep or share</span></span></li>
+        </ul>
+      </div>
+
+      <form id="welcome-form" class="welcome-card" novalidate>
+        <div>
+          <p class="eyebrow">Get started</p>
+          <h2 class="welcome-card-title">Set up your planner</h2>
+        </div>
+
+        <div class="field">
+          <label for="welcome-name" class="field-label">Your name</label>
+          <input id="welcome-name" name="name" class="input input-lg" type="text" maxlength="40" autocomplete="given-name"
+            placeholder="e.g. Arjun" spellcheck="false" aria-describedby="welcome-name-error">
+          <p id="welcome-name-error" class="field-error" hidden></p>
+        </div>
+
+        <fieldset class="field" aria-describedby="welcome-course-error">
+          <legend class="field-label">Your course</legend>
+          <div class="course-options" id="course-options"></div>
+          <p id="welcome-course-error" class="field-error" hidden></p>
+        </fieldset>
+
+        <div class="custom-panel" id="custom-panel" hidden>
+          <fieldset class="field" aria-describedby="welcome-subjects-error">
+            <legend class="field-label">Pick your subjects</legend>
+            <div class="chip-group" id="custom-core"></div>
+          </fieldset>
+          <div class="field">
+            <label class="field-label" for="welcome-own-subject">Add your own <span class="opt">Optional</span></label>
+            <div class="add-subject">
+              <input id="welcome-own-subject" class="input" type="text" maxlength="40" placeholder="e.g. English" autocomplete="off">
+              <button type="button" class="btn btn-secondary" id="welcome-add-subject"><span data-icon="plus" data-size="16"></span>Add</button>
+            </div>
+          </div>
+          <ul class="chip-list" id="welcome-own-list"></ul>
+          <p id="welcome-subjects-error" class="field-error" hidden></p>
+        </div>
+
+        <button id="welcome-submit" type="submit" class="btn btn-primary btn-lg btn-block">
+          Start Planning <span data-icon="arrow-right"></span>
+        </button>
+        <p class="welcome-footer">No account needed. Your planner is saved only on this device.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ APP SHELL ============ -->
+  <div id="app" class="app" hidden>
+    <aside class="sidebar" aria-label="Sidebar">
+      <a class="sidebar-brand" href="#/dashboard" aria-label="Bhairavi Academy Study Planner, go to dashboard">
+        <img class="logo-full" src="assets/logo-full.png" alt="" width="900" height="191">
+        <img class="logo-mark" src="assets/logo-mark.png" alt="" width="256" height="256">
+        <span class="brand-sub">Study Planner</span>
+      </a>
+      <nav class="side-nav" id="side-nav" aria-label="Main navigation"></nav>
+      <button type="button" class="sidebar-profile" id="sidebar-profile" aria-label="Open profile settings">
+        <span class="avatar" id="sidebar-avatar" aria-hidden="true">?</span>
+        <span class="sidebar-profile-text">
+          <span class="sidebar-profile-name" id="sidebar-name"></span>
+          <span class="sidebar-profile-meta" id="sidebar-track"></span>
+        </span>
+      </button>
+    </aside>
+
+    <div class="app-body">
+      <header class="topbar">
+        <div class="topbar-left">
+          <a class="topbar-brand" href="#/dashboard" aria-label="Bhairavi Academy, go to dashboard">
+            <img class="logo-mark" src="assets/logo-mark.png" alt="" width="256" height="256">
+          </a>
+          <p class="crumb">
+            <span class="crumb-root">Planner</span>
+            <span class="crumb-sep" data-icon="chevron-right" data-size="14"></span>
+            <span class="crumb-current" id="crumb-current">Dashboard</span>
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="search-trigger" id="search-trigger" aria-label="Search tasks"
+            aria-keyshortcuts="/">
+            <span data-icon="search" data-size="16"></span>
+            <span class="search-trigger-text">Search tasks</span>
+            <kbd>/</kbd>
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="quick-add" aria-label="Add task"
+            aria-keyshortcuts="n">
+            <span data-icon="plus" data-size="16"></span><span class="btn-label">Add Task</span>
+          </button>
+          <button type="button" class="avatar-btn" id="profile-btn" aria-label="Profile and settings">
+            <span class="avatar" id="topbar-avatar" aria-hidden="true">?</span>
+          </button>
+        </div>
+      </header>
+
+      <div id="storage-banner" class="banner" role="alert" hidden></div>
+
+      <main id="main" class="main" tabindex="-1">
+        <div id="view" class="view"></div>
+      </main>
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Main navigation"></nav>
+  </div>
+
+  <!-- ============ MOBILE "MORE" SHEET ============ -->
+  <dialog id="more-sheet" class="modal sheet" aria-labelledby="more-title">
+    <div class="modal-card sheet-card">
+      <div class="modal-head">
+        <h2 id="more-title" class="modal-title">More</h2>
+        <button type="button" class="icon-btn" data-close-sheet aria-label="Close menu"><span
+            data-icon="x"></span></button>
+      </div>
+      <nav class="sheet-nav" id="sheet-nav" aria-label="More destinations"></nav>
+    </div>
+  </dialog>
+
+  <!-- ============ ADD / EDIT TASK MODAL ============ -->
+  <dialog id="task-modal" class="modal" aria-labelledby="task-modal-title">
+    <form id="task-form" class="modal-card" novalidate>
+      <div class="modal-head">
+        <h2 id="task-modal-title" class="modal-title">Add task</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close dialog"><span data-icon="x"></span></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="field">
+          <label class="field-label" for="tf-title">Task title <span class="req" aria-hidden="true">*</span></label>
+          <input id="tf-title" name="title" class="input" type="text" maxlength="200" required
+            placeholder="e.g. Solve 30 MCQs on Laws of Motion" aria-describedby="tf-title-error" autocomplete="off">
+          <p class="field-error" id="tf-title-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="tf-desc">Description <span class="opt">Optional</span></label>
+          <textarea id="tf-desc" name="description" class="input textarea" rows="2" maxlength="2000"
+            placeholder="Notes, page numbers or question sources"></textarea>
+        </div>
+
+        <div class="field-grid field-grid-2">
+          <div class="field">
+            <label class="field-label" for="tf-subject">Subject <span class="opt">Optional</span></label>
+            <select id="tf-subject" name="subject" class="input select"></select>
+            <div class="field-sub" id="tf-subject-new-wrap" hidden>
+              <label class="sr-only" for="tf-subject-new">New subject name</label>
+              <input id="tf-subject-new" class="input" type="text" maxlength="40" placeholder="New subject name"
+                aria-describedby="tf-subject-error" autocomplete="off">
+            </div>
+            <p class="field-error" id="tf-subject-error" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="tf-chapter">Chapter<span class="opt">Optional</span></label>
+            <input id="tf-chapter" name="chapter" class="input" type="text" maxlength="120"
+              placeholder="e.g. Thermodynamics" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="tf-date">Due date <span class="req" aria-hidden="true">*</span></label>
+          <input id="tf-date" name="dueDate" class="input" type="date" required aria-describedby="tf-date-hint tf-date-error">
+          <p class="field-hint" id="tf-date-hint">Due until the end of this day. If it is not done by then, it moves to Overdue.</p>
+          <p class="field-error" id="tf-date-error" hidden></p>
+        </div>
+
+        <fieldset class="field fieldset">
+          <legend class="field-label">Priority</legend>
+          <div class="chip-group" id="tf-priority">
+            <label class="chip-radio"><input type="radio" name="priority" value="low"><span><i class="pdot pdot-low"
+                  aria-hidden="true"></i>Low</span></label>
+            <label class="chip-radio"><input type="radio" name="priority" value="medium"><span><i
+                  class="pdot pdot-medium" aria-hidden="true"></i>Medium</span></label>
+            <label class="chip-radio"><input type="radio" name="priority" value="high"><span><i class="pdot pdot-high"
+                  aria-hidden="true"></i>High</span></label>
+          </div>
+        </fieldset>
+
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-ghost-danger" id="tf-delete" hidden>
+          <span data-icon="trash" data-size="16"></span>Delete
+        </button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="tf-save">Save Task</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ============ CONFIRM DIALOG ============ -->
+  <dialog id="confirm-dialog" class="modal modal-sm" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+    <form id="confirm-form" class="modal-card" novalidate>
+      <div class="modal-body confirm-body">
+        <span class="confirm-icon" id="confirm-icon" aria-hidden="true"></span>
+        <h2 id="confirm-title" class="modal-title"></h2>
+        <p id="confirm-message" class="confirm-message"></p>
+        <div class="field" id="confirm-require" hidden>
+          <label class="field-label" for="confirm-input" id="confirm-require-label"></label>
+          <input id="confirm-input" class="input" type="text" autocomplete="off" spellcheck="false"
+            aria-describedby="confirm-error">
+          <p class="field-error" id="confirm-error" hidden></p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-secondary" id="confirm-cancel">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="confirm-secondary" hidden></button>
+        <button type="submit" class="btn btn-primary" id="confirm-ok">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
